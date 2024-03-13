@@ -12,15 +12,11 @@ public class Mydb
         {
             try
             {
-
                 con.Open();
                 Console.WriteLine("Connection is Established");
 
-
                 Console.WriteLine("1.Insert\n2.Update\n3.Display \n4.Delete");
                 int choice = Convert.ToInt32(Console.ReadLine());
-
-
 
                 switch (choice)
                 {
@@ -128,9 +124,6 @@ public class Mydb
                                 Console.WriteLine("Delete Failed");
                             }
                         }
-
-
-
                         break;
                     default:
                         Console.WriteLine("Enter valid Choice");
