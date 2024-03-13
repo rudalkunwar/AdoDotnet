@@ -34,9 +34,23 @@ public class Mydb
                         Console.WriteLine("Enter the Student Address");
                         string address = Console.ReadLine();
 
-                        string insertqry = $"INSERT INTO students VALUES('{name}','{address}','{faculty}','{rollno}')";
+                        string insertqry = $"INSERT INTO students(name,address,faculty,rollno) VALUES('{name}','{address}','{faculty}',{rollno})";
                         using(MySqlCommand insercommand = new MySqlCommand(insertqry, con))
                         {
+
+                            insercommand.Parameters.AddWithValue("@name", name);
+                            insercommand.Parameters.AddWithValue("@address", address);
+                            insercommand.Parameters.AddWithValue("@faculty", faculty);
+                            insercommand.Parameters.AddWithValue("@rollno", rollno);
+
+                            if (insercommand.ExecuteNonQuery() > 0)
+                            {
+                                Console.WriteLine("Insertion Sucess");
+                            }
+                            else
+                            {
+                                Console.WriteLine("Insertion Failed");
+                            }
 
                         }
                         break;
@@ -53,6 +67,28 @@ public class Mydb
                         Console.WriteLine("Enter the Student Rollno to update");
                         int uid = Convert.ToInt32(Console.ReadLine());
 
+                        string updatequery = $"UPDATE students SET name='{uname}', address='{uaddress}', faculty='{ufaculty}', rollno={urollno} WHERE rollno = {uid}";
+
+
+                        using (MySqlCommand ucmd = new MySqlCommand(updatequery, con))
+                        {
+
+                            ucmd.Parameters.AddWithValue("@uname", uname);
+                            ucmd.Parameters.AddWithValue("@address", uaddress);
+                            ucmd.Parameters.AddWithValue("@ufaculty", ufaculty);
+                            ucmd.Parameters.AddWithValue("@urollno", urollno);
+
+                            if (ucmd.ExecuteNonQuery() > 0)
+                            {
+
+                                Console.WriteLine("Update Sucess");
+                            }
+                            else
+                            {
+                                Console.WriteLine("Update Failed");
+                            }
+
+                        }
                         break; 
                     case 3:
                         string readquery = "SELECT * FROM students";
@@ -76,6 +112,25 @@ public class Mydb
                     case 4:
                         Console.WriteLine("Enter the Student Rollno to delete");
                         int did = Convert.ToInt32(Console.ReadLine());
+
+                        string delquery = $"DELETE FROM students WHERE rollno = {did}";
+
+                        using(MySqlCommand delcmd = new MySqlCommand(delquery, con))
+                        {
+
+                            if (delcmd.ExecuteNonQuery() > 0)
+                            {
+
+                                Console.WriteLine("Delete Sucess");
+                            }
+                            else
+                            {
+                                Console.WriteLine("Delete Failed");
+                            }
+                        }
+
+
+
                         break;
                     default:
                         Console.WriteLine("Enter valid Choice");
